@@ -66,7 +66,7 @@
         .memory-img {
             width: 100%;
             max-height: 240px;
-            object-fit: cover;
+            object-fit: contain;
             border-radius: 12px;
             margin-bottom: 15px;
             box-shadow: 0 4px 10px rgba(0,0,0,0.05);
@@ -150,6 +150,11 @@
     <video autoplay muted loop playsinline id="bgVideo">
         <source src="video.mp4" type="video/mp4">
     </video>
+
+    <audio id="bgMusic" autoplay loop>
+        <source src="music.mp3" type="audio/mpeg">
+    </audio>   
+            
 
     <div class="container">
         
