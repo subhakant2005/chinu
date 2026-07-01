@@ -7,43 +7,89 @@
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #ffe5ec, #ffc2d1);
+            margin: 0;
+            padding: 0;
             height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            margin: 0;
             overflow: hidden;
+        }
+
+        /* Fullscreen background video styling */
+        #bgVideo {
+            position: fixed;
+            right: 0;
+            bottom: 0;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            z-index: -100;
+            object-fit: cover;
+            filter: brightness(0.75); /* Deepens colors so text pops */
         }
 
         .container {
             text-align: center;
-            background: white;
-            padding: 40px;
+            background: rgba(255, 255, 255, 0.92); /* Semi-transparent white overlay */
+            backdrop-filter: blur(8px); /* Beautiful blur effect */
+            padding: 30px;
             border-radius: 20px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
             max-width: 450px;
             width: 90%;
             position: relative;
+            min-height: 400px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1;
         }
 
-        h1 {
+        .slide {
+            display: none;
+            animation: fadeIn 0.5s ease forwards;
+            width: 100%;
+        }
+
+        .slide.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .memory-img {
+            width: 100%;
+            max-height: 240px;
+            object-fit: cover;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+
+        h2 {
             color: #ff477e;
-            margin-bottom: 10px;
+            margin: 10px 0;
+            font-size: 1.3rem;
         }
 
         p {
             color: #4a4a4a;
-            font-size: 1.1rem;
+            font-size: 1rem;
             line-height: 1.5;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
         }
 
         .heart {
             font-size: 50px;
             color: #ff477e;
             animation: beat 1s infinite alternate;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
 
         @keyframes beat {
@@ -56,26 +102,38 @@
             gap: 20px;
             height: 50px;
             position: relative;
+            width: 100%;
+            margin-top: 10px;
         }
 
         button {
-            padding: 12px 30px;
+            padding: 12px 28px;
             font-size: 1rem;
             font-weight: bold;
             border: none;
             border-radius: 50px;
             cursor: pointer;
-            transition: transform 0.2s;
+            transition: all 0.2s;
+        }
+
+        .next-btn {
+            background-color: #ff477e;
+            color: white;
+        }
+
+        .next-btn:hover {
+            background-color: #ff5c8a;
+            transform: scale(1.05);
         }
 
         #yesBtn {
-            background-color: #ff477e;
+            background-color: #4edf7a;
             color: white;
         }
 
         #yesBtn:hover {
             transform: scale(1.1);
-            background-color: #ff5c8a;
+            background-color: #51e681;
         }
 
         #noBtn {
@@ -83,31 +141,124 @@
             color: #495057;
             position: absolute;
             transition: all 0.15s ease;
-            touch-action: none; /* Prevents clicking on mobile easily */
+            touch-action: none;
         }
     </style>
 </head>
 <body>
 
+    <video autoplay muted loop playsinline id="bgVideo">
+        <source src="video.mp4" type="video/mp4">
+    </video>
+
     <div class="container">
-        <div class="heart">❤️</div>
-        <h1>I'm So Sorry, Chinu</h1>
-        <p>
-            I messed up, and I genuinely regret it. You mean the world to me, and I don't want to lose what we have. 
-            Can we please give our relationship one more chance?
-        </p>
         
-        <div class="btn-container">
-            <button id="yesBtn" onclick="forgive()">Yes, I forgive you</button>
-            <button id="noBtn" onmouseover="moveButton()" onclick="moveButton()">No</button>
+        <div class="slide active" id="slide1">
+            <div class="heart">❤️</div>
+            <h2>Hey Chinu, I made something for you...</h2>
+            <p>Please take a moment to look through this.</p>
+            <button class="next-btn" onclick="nextSlide(2)">Open It ➡️</button>
         </div>
+
+        <div class="slide" id="slide2">
+            <h2>Remember when we... 🌹</h2>
+            <img src="pic1.jpg" alt="Our Memory" class="memory-img">
+            <p>Our first Puri trip remember in Kia Seltos.</p>
+            <button class="next-btn" onclick="nextSlide(3)">Next Memory ➡️</button>
+        </div>
+
+        <div class="slide" id="slide3">
+            <h2>Your Smile ✨</h2>
+            <img src="pic2.jpg" alt="Our Memory" class="memory-img">
+            <p>Big Cup Cafe at Zoya's Birthday.</p>
+            <button class="next-btn" onclick="nextSlide(4)">Next Memory ➡️</button>
+        </div>
+
+        <div class="slide" id="slide4">
+            <h2>The Best Times 💖</h2>
+            <img src="pic3.jpg" alt="Our Memory" class="memory-img">
+            <p>My angry bird at central lib.</p>
+            <button class="next-btn" onclick="nextSlide(5)">Next Memory ➡️</button>
+        </div>
+
+        <div class="slide" id="slide5">
+            <h2>My Favorite Person 🥰</h2>
+            <img src="pic4.jpg" alt="Our Memory" class="memory-img">
+            <p>Rupali chowk chart raga jorse laguthila tate maneachi.</p>
+            <button class="next-btn" onclick="nextSlide(6)">Next Memory ➡️</button>
+        </div>
+
+        <div class="slide" id="slide6">
+            <h2>Thinking of You 💭</h2>
+            <img src="pic5.jpg" alt="Our Memory" class="memory-img">
+            <p>Lingaraj temple jaithile scooty tu chalouthilu maneachi.</p>
+            <button class="next-btn" onclick="nextSlide(7)">Next Memory ➡️</button>
+        </div>
+
+        <div class="slide" id="slide7">
+            <h2>Unforgettable Moments 💞</h2>
+            <img src="pic6.jpg" alt="Our Memory" class="memory-img">
+            <p>Netaji Park jou daily jauthile.</p>
+            <button class="next-btn" onclick="nextSlide(8)">Next Memory ➡️</button>
+        </div>
+
+        <div class="slide" id="slide8">
+            <h2>Missing You 🥺</h2>
+            <img src="pic7.jpg" alt="Our Memory" class="memory-img">
+            <p>State Botanical Garden jou neithili tu kete khushi heithilu.</p>
+            <button class="next-btn" onclick="nextSlide(9)">Next Memory ➡️</button>
+        </div>
+
+        <div class="slide" id="slide9">
+            <h2>Always in My Heart 🔒</h2>
+            <img src="pic8.jpg" alt="Our Memory" class="memory-img">
+            <p>My Cutie looking cute in bindi.</p>
+            <button class="next-btn" onclick="nextSlide(10)">Next Memory ➡️</button>
+        </div>
+
+        <div class="slide" id="slide10">
+            <h2>Your Kindness 🤗</h2>
+            <img src="pic9.jpg" alt="Our Memory" class="memory-img">
+            <p>Nightout at Puri ki maja nah.</p>
+            <button class="next-btn" onclick="nextSlide(11)">Next Memory ➡️</button>
+        </div>
+
+        <div class="slide" id="slide11">
+            <h2>One Last Memory 💍</h2>
+            <img src="pic10.jpg" alt="Our Memory" class="memory-img">
+            <p>Kete cute au sundar photo ta naa.</p>
+            <button class="next-btn" onclick="nextSlide(12)">Continue ➡️</button>
+        </div>
+
+        <div class="slide" id="slide12">
+            <div class="heart">❤️</div>
+            <h2>I'm Truly Sorry, Chinu</h2>
+            <p>I know I messed up, and I hate knowing I caused you pain. You mean everything to me. Can we give our relationship one more chance?</p>
+            
+            <div class="btn-container">
+                <button id="yesBtn" onclick="forgive()">Yes, let's talk</button>
+                <button id="noBtn" onmouseover="moveButton()" onclick="moveButton()">No</button>
+            </div>
+        </div>
+
+        <div class="slide" id="slide13">
+            <div class="heart">💖</div>
+            <h2>Thank you, Chinu!</h2>
+            <p>Thank you for your beautiful heart. I promise to make things right and cherish you properly. I love you so much toh pain sabu kichi karibi dhana please my cutie I miss you mate kn tu miss karunu ki janichi maw daiky ratire karuthibu jaha hele b mu toh dil ra kareeb nah hehe. Sweetheart I Love You so much duniya pura aniki deidebi tate.. Asijaa pleaseee bohut mehnat re baneichi bhal lagithiba hope so.. Meri Zindagi hai Tu!</p>
+        </div>
+
     </div>
 
     <script>
+        function nextSlide(slideNumber) {
+            document.querySelectorAll('.slide').forEach(slide => {
+                slide.classList.remove('active');
+            });
+            document.getElementById('slide' + slideNumber).classList.add('active');
+        }
+
         function moveButton() {
             const noBtn = document.getElementById('noBtn');
-            
-            // Calculate a random position anywhere on the screen
             const x = Math.random() * (window.innerWidth - noBtn.offsetWidth - 40);
             const y = Math.random() * (window.innerHeight - noBtn.offsetHeight - 40);
             
@@ -117,11 +268,7 @@
         }
 
         function forgive() {
-            document.querySelector('.container').innerHTML = `
-                <div class="heart">💖</div>
-                <h1>Thank you, Chinu!</h1>
-                <p>Thank you for giving us another chance. I promise to make it right and cherish you every single day. I love you!</p>
-            `;
+            nextSlide(13);
         }
     </script>
 
